@@ -1,0 +1,28 @@
+{
+  "name": "Crime-Visualization",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "react-scripts build",
+    "start": "react-scripts start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Forest-Y/Crime-Visualization.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Forest-Y/Crime-Visualization/issues"
+  },
+  "homepage": "https://github.com/Forest-Y/Crime-Visualization#readme",
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "react-scripts": "^4.0.1"
+  }
+}
