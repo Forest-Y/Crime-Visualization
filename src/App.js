@@ -10,8 +10,8 @@ export default function App() {
             <Menu />
           </div>
           <div className="column">
-            <div className="row">map</div>
-            <div className="row">graph</div>
+            <div className="row box">map</div>
+            <div className="row box">graph</div>
           </div>
         </div>
       </div>
