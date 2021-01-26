@@ -1,5 +1,6 @@
 import "bulma/css/bulma.min.css";
 import Menu from "./components/Menu";
+import { ChoroplethMapPage } from "./components/Choropleth"
 
 export default function App() {
   return (
@@ -10,7 +11,7 @@ export default function App() {
             <Menu />
           </div>
           <div className="column">
-            <div className="row box">map</div>
+            <div className="row box"><ChoroplethMapPage /></div>
             <div className="row box">graph</div>
           </div>
         </div>
