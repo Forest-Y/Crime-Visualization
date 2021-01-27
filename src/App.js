@@ -29,14 +29,12 @@ export default function App() {
               typeOfCrime={crimeData === null ? [] : crimeData.typeOfCrime}
             />
           </div>
-          <div className="column">
-            <div className="row box">
-              <ChoroplethMap crimeData={crimeData} />
-            </div>
-            <div className="row box">
-              <LineChart />
-            </div>
+          <div className="column box">
+            <ChoroplethMap crimeData={crimeData} />
           </div>
+        </div>
+        <div className="box">
+          <LineChart />
         </div>
       </div>
     </section>
