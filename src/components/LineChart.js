@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactTooltip from "react-tooltip";
 
 const LineChartSetUp = () => {
     const [crimeData, setCrimeData] = useState(null)
@@ -17,19 +18,16 @@ const LineChartSetUp = () => {
 const LineChart = ({ crimeData }) => {
     const key1 = "全国"
     const key2 = "刑法犯総数"
-    console.log(crimeData[key1][key2]["normalizedValue"])
+    //console.log(crimeData[key1][key2]["normalizedValue"])
     const berHeight = 10;
-    const width = 2500
+    const width = 1600
     const height = 565
     let perData = crimeData[key1][key2]["normalizedValue"]["2018"][0]
-    const yLavel = {
-        "2018":["H30/1", "H30/2", "H30/3", "H30/4", "H30/5", "H30/6", "H30/7", "H30/8", "H30/9", "H30/10", "H30/11", "H30/12"],
-        "2019":["H31/1", "H31/2", "H31/3", "H31/4", "R1/5", "R1/6", "R1/7", "R1/8", "R1/9", "R1/10", "R1/11", "R1/12"],
-        "2020":["R2/1", "R2/2", "R2/3", "R2/4", "R2/5", "R2/6", "R2/7", "R2/8", "R2/9", "R2/10", "R2/11", "R2/12"]
-    }
+    const yLavel = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
 
     return (
         <div>
+            <ReactTooltip className='test' delayHide={1000} effect='solid' />
             <section className="section">
                 <svg width={width} height={height}>
                     <g transform="scale(0.7)">
@@ -68,9 +66,9 @@ const LineChart = ({ crimeData }) => {
                                                 <g>
                                                     <g>
                                                         <line
-                                                            x1={Math.max(0, 60 * (i * 12 + j - 1))}
+                                                            x1={Math.max(0, 40 * (i * 12 + j - 1))}
                                                             y1={height - preData * (height - 65) - 15}
-                                                            x2={60 * (i * 12 + j)}
+                                                            x2={40 * (i * 12 + j)}
                                                             y2={height - item * (height - 65) - 15}
                                                             stroke="#888"
 
@@ -78,23 +76,25 @@ const LineChart = ({ crimeData }) => {
                                                     </g>
                                                     <g
                                                         key={item}
-                                                        transform={`translate(${60 * (i * 12 + j)}, 0)`}
+                                                        transform={`translate(${40 * (i * 12 + j)}, 0)`}
                                                     >
                                                         <ellipse
                                                             cx={0}
                                                             cy={height - item * (height - 65) - 15}
-                                                            rx="3"
-                                                            ry="3"
+                                                            rx="5"
+                                                            ry="5"
                                                             fill="black"
-                                                            onMouseEnter = {(() => {console.log("OK")})}
-                                                        />
+                                                            data-tip={"正規化前の認知件数：" + crimeData[key1][key2]["value"][year][Math.max(0, j - 1)]}></ellipse>
+
+
                                                         <text
                                                             x="15"
                                                             y={height + 15}
                                                             textAnchor="end"
                                                             dominantBaseline="central"
+                                                            transform="translate(581, 630) rotate(90)"
                                                         >
-                                                            {yLavel[year][j]}
+                                                            {year + "年" + yLavel[j].padStart(2, "0") + "月"}
                                                         </text>
                                                     </g>
                                                     <g
