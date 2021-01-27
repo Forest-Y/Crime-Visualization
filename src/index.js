@@ -1,4 +1,10 @@
 import { render } from "react-dom";
 import App from "./App";
+import { RecoilRoot } from "recoil";
 
-render(<App />, document.querySelector("#content"));
+render(
+  <RecoilRoot>
+    <App />
+  </RecoilRoot>,
+  document.querySelector("#content")
+);
