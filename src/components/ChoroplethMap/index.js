@@ -26,26 +26,18 @@ const ChoroplethMap = ({ features }) => {
     </svg>
   );
 };
-
-export const ChoroplethMap = () => {
+export const ChoroplethMapPage = () => {
   const [features, setFeatures] = useState(null);
-
-  const mapDataUrl = `${process.env.PUBLIC_URL}/data/japan.json`;
-
+  const [crimeData, setCrimeData] = useState(null);
   useEffect(() => {
-    async function loadMapData(dataUrl) {
-      const res = await fetch(dataUrl);
+    (async () => {
+      const res = await fetch(`${process.env.PUBLIC_URL}/data/japan.json`);
       const data = await res.json();
-
       const { features } = topojson.feature(data, data.objects.japan);
-
       setFeatures(features);
-    }
-
-    loadMapData(mapDataUrl);
+    })();
   }, []);
-
-  if (features === null) {
+  if (features == null) {
     return <p>loading</p>;
   }
   return <ChoroplethMap features={features} />;
