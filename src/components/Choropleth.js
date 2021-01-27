@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
 import * as topojson from "topojson";
-const ChoroplethMap = ({ features }) => {
+const ChoroplethMap = ( {features} ) => {
   const width = 960;
   const height = 500;
   const projection = d3.geoMercator().scale(1000).center([139.69167, 35.68944]);
@@ -10,6 +10,7 @@ const ChoroplethMap = ({ features }) => {
     .scaleLinear()
     .domain(d3.extent(features, (feature) => feature.properties.value))
     .range(["#ccc", "#f00"]);
+  
   return (
     <svg width={width} height={height}>
       <g>
@@ -27,6 +28,7 @@ const ChoroplethMap = ({ features }) => {
 };
 export const ChoroplethMapPage = () => {
   const [features, setFeatures] = useState(null);
+  const [crimeData, setCrimeData] = useState(null)
  useEffect(() => {
     (async() => {
       const res = await fetch(`${process.env.PUBLIC_URL}/data/japan.json`)
@@ -38,5 +40,5 @@ export const ChoroplethMapPage = () => {
   if (features == null) {
     return <p>loading</p>;
   }
-  return <ChoroplethMap features={features} />;
+  return <ChoroplethMap features={features}/>;
 };
