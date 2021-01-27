@@ -1,7 +1,7 @@
 import "bulma/css/bulma.min.css";
 import Menu from "./components/Menu";
-import { ChoroplethMapPage } from "./components/Choropleth"
-import LineChart from "./components/LineChart" 
+import { ChoroplethMap } from "./components/Choropleth";
+import LineChart from "./components/LineChart";
 
 export default function App() {
   return (
@@ -12,8 +12,12 @@ export default function App() {
             <Menu />
           </div>
           <div className="column">
-            <div className="row box"><ChoroplethMapPage /></div>
-            <div className="row box"><LineChart /></div>
+            <div className="row box">
+              <ChoroplethMap />
+            </div>
+            <div className="row box">
+              <LineChart />
+            </div>
           </div>
         </div>
       </div>
