@@ -27,7 +27,7 @@ const LineChart = ({ crimeData }) => {
 
     return (
         <div>
-            <ReactTooltip className='test' delayHide={1000} effect='solid' />
+        <ReactTooltip delayHide={1000} effect='solid' />
             <section className="section">
                 <svg width={width} height={height}>
                     <g transform="scale(0.7)">
@@ -56,7 +56,7 @@ const LineChart = ({ crimeData }) => {
                                 {crimeData["years"].map((year, i) => {
                                     let preData
                                     return (
-                                        <div key={year}>
+                                        <g key={i}>
                                             {crimeData[key1][key2]["normalizedValue"][year].map((item, j) => {
                                                 if (year !== "2018" && j === 0) {
                                                     preData = crimeData[key1][key2]["normalizedValue"][String(parseFloat(year) - 1)][11]
@@ -64,7 +64,7 @@ const LineChart = ({ crimeData }) => {
                                                     preData = crimeData[key1][key2]["normalizedValue"][year][Math.max(0, j - 1)]
                                                 }
                                                 return (
-                                                    <g key = {item}>
+                                                    <g key={j}>
                                                         <g>
                                                             <line
                                                                 x1={Math.max(0, 40 * (i * 12 + j - 1))}
@@ -129,7 +129,7 @@ const LineChart = ({ crimeData }) => {
                                                     </g>
                                                 )
                                             })}
-                                        </div>
+                                        </g>
                                     )
                                 })}
                             </g>
