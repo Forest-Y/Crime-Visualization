@@ -39,27 +39,37 @@ const LineChart = ({ crimeData }) => {
     2019: "blue",
     2020: "green",
   };
-  const max = Math.max(Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2018"]), Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2019"]), Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2020"]))
-  const maxDigit = String(max).length
-  const maxLength = Math.ceil(max / 10 ** (Math.max(1, maxDigit - 1))) * 10 ** (Math.max(1, maxDigit - 1))
-  console.log(maxLength, max)
+  const max = Math.max(
+    Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2018"]),
+    Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2019"]),
+    Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2020"])
+  );
+  const maxDigit = String(max).length;
+  const maxLength =
+    Math.ceil(max / 10 ** Math.max(1, maxDigit - 1)) *
+    10 ** Math.max(1, maxDigit - 1);
+  console.log(maxLength, max);
 
   return (
     <div className="container">
-      <ReactTooltip delayHide={1000} effect="solid" />
-      <svg viewBox = {`0 0 ${width} ${height}`}>
+      <ReactTooltip delayHide={0} effect="solid" />
+      <svg viewBox={`0 0 ${width} ${height}`}>
         <g transform="scale(0.7)">
-          <g transform="translate(50, -30)">
+          <g transform="translate(50, 30)">
             <g>
-              <text transform = "translate(583, 70)" font-size = "2em">{selectedCrime}</text>
-              <text transform = "translate(600, 100)">2018年</text><ellipse cx = {592} cy = {95} rx = "5" ry = "5" fill = "red"/>
-              <text transform = "translate(600, 130)">2019年</text><ellipse cx = {592} cy = {125} rx = "5" ry = "5" fill = "blue"/>
-              <text transform = "translate(600, 160)">2020年</text><ellipse cx = {592} cy = {155} rx = "5" ry = "5" fill = "green"/>
-              {" "}
+              <text transform="translate(0, 0)" font-size="2em">
+                {selectedCrime}
+              </text>
+              <text transform="translate(600, 100)">2018年</text>
+              <ellipse cx={592} cy={95} rx="5" ry="5" fill="red" />
+              <text transform="translate(600, 130)">2019年</text>
+              <ellipse cx={592} cy={125} rx="5" ry="5" fill="blue" />
+              <text transform="translate(600, 160)">2020年</text>
+              <ellipse cx={592} cy={155} rx="5" ry="5" fill="green" />{" "}
               {/*軸の描画*/}
               <line
                 x1="0"
-                y1="0"
+                y1="40"
                 x2="0"
                 y2={height - 14}
                 stroke="#888"
@@ -82,13 +92,13 @@ const LineChart = ({ crimeData }) => {
                 let preData;
                 return (
                   <g key={year}>
-                    {crimeData[selectedPrefecture][selectedCrime][
-                      "value"
-                    ][year].map((item, j) => {
+                    {crimeData[selectedPrefecture][selectedCrime]["value"][
+                      year
+                    ].map((item, j) => {
                       preData =
-                        crimeData[selectedPrefecture][selectedCrime][
-                          "value"
-                        ][year][Math.max(0, j - 1)];
+                        crimeData[selectedPrefecture][selectedCrime]["value"][
+                          year
+                        ][Math.max(0, j - 1)];
 
                       //console.log(preData)
                       return (
@@ -96,9 +106,15 @@ const LineChart = ({ crimeData }) => {
                           <g>
                             <line
                               x1={Math.max(0, 40 * (j - 1))}
-                              y1={height - preData / maxLength * (height - 65) - 15}
+                              y1={
+                                height -
+                                (preData / maxLength) * (height - 65) -
+                                15
+                              }
                               x2={40 * j}
-                              y2={height - (item  / maxLength) * (height - 65) - 15}
+                              y2={
+                                height - (item / maxLength) * (height - 65) - 15
+                              }
                               //stroke={"black"}
                               stroke={colors[year]}
                               strokeWidth="2"
@@ -107,7 +123,9 @@ const LineChart = ({ crimeData }) => {
                           <g transform={`translate(${40 * j}, 0)`}>
                             <ellipse
                               cx={0}
-                              cy={height - (item / maxLength) * (height - 65) - 15}
+                              cy={
+                                height - (item / maxLength) * (height - 65) - 15
+                              }
                               rx="5"
                               ry="5"
                               fill={colors[year]}
@@ -129,28 +147,30 @@ const LineChart = ({ crimeData }) => {
                               {yLavel[j] + "月"}
                             </text>
                           </g>
-                          <g
-                            key={5000 * i}
-                            transform={`translate(0, ${
-                              -50 * (i * 12 + j + 1)
-                            })`}
-                          >
-                            <line
-                              x1="0"
-                              y1={height - 15}
-                              x2={width - 200}
-                              y2={height - 15}
-                              stroke="#888"
-                            />
-                            <text
-                              x="-5"
-                              y={height - 15}
-                              textAnchor="end"
-                              dominantBaseline="central"
+                          {j <= 9 && (
+                            <g
+                              key={5000 * i}
+                              transform={`translate(0, ${
+                                -50 * (i * 12 + j + 1)
+                              })`}
                             >
-                              {maxLength / 10 * (j + 1)}
-                            </text>
-                          </g>
+                              <line
+                                x1="0"
+                                y1={height - 15}
+                                x2={width - 200}
+                                y2={height - 15}
+                                stroke="#888"
+                              />
+                              <text
+                                x="-5"
+                                y={height - 15}
+                                textAnchor="end"
+                                dominantBaseline="central"
+                              >
+                                {(maxLength / 10) * (j + 1)}
+                              </text>
+                            </g>
+                          )}
                           <text
                             x="-5"
                             y={height - 15}
