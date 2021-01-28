@@ -9,3 +9,8 @@ export const selectedPrefectureState = atom({
   key: "selectedPrefectureState",
   default: null,
 });
+
+export const crimeDataState = atom({
+  key: "crimeDataState",
+  default: null,
+});

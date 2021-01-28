@@ -1,10 +1,16 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import { useRecoilValue } from "recoil";
-import { selectedCrimeState, selectedPrefectureState } from "../atoms";
+import {
+  crimeDataState,
+  selectedCrimeState,
+  selectedPrefectureState,
+} from "../atoms";
+import { Responsive } from "./Responsive";
 
-const LineChart = ({ crimeData }) => {
+const LineChart = ({ width, height }) => {
   //console.log(crimeData);
+  const crimeData = useRecoilValue(crimeDataState);
   const selectedCrime = useRecoilValue(selectedCrimeState);
   const selectedPrefecture = useRecoilValue(selectedPrefectureState);
   //console.log(selectedCrime, selectedPrefecture);
@@ -16,8 +22,6 @@ const LineChart = ({ crimeData }) => {
     return <p>loading...</p>;
   }
   const berHeight = 10;
-  const width = 700;
-  const height = 565;
   //console.log(crimeData)
   const keys = [selectedCrime];
   const yLavel = [
@@ -39,23 +43,37 @@ const LineChart = ({ crimeData }) => {
     2019: "blue",
     2020: "green",
   };
-  const max = Math.max(Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2018"]), Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2019"]), Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2020"]))
-  const maxDigit = String(max).length
-  const maxLength = Math.ceil(max / 10 ** (Math.max(1, maxDigit - 1))) * 10 ** (Math.max(1, maxDigit - 1))
-  console.log(maxLength, max)
+  const max = Math.max(
+    Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2018"]),
+    Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2019"]),
+    Math.max(...crimeData[selectedPrefecture][selectedCrime]["value"]["2020"])
+  );
+  const maxDigit = String(max).length;
+  const maxLength =
+    Math.ceil(max / 10 ** Math.max(1, maxDigit - 1)) *
+    10 ** Math.max(1, maxDigit - 1);
+  console.log(maxLength, max);
 
   return (
     <div className="container">
       <ReactTooltip delayHide={1000} effect="solid" />
-      <svg viewBox = {`0 0 ${width} ${height}`}>
+      <svg
+        // viewBox={`0 0 ${width} ${height}`}
+        width={width}
+        height={height}
+      >
         <g transform="scale(0.7)">
           <g transform="translate(50, -30)">
             <g>
-              <text transform = "translate(583, 70)" font-size = "2em">{selectedCrime}</text>
-              <text transform = "translate(600, 100)">2018年</text><ellipse cx = {592} cy = {95} rx = "5" ry = "5" fill = "red"/>
-              <text transform = "translate(600, 130)">2019年</text><ellipse cx = {592} cy = {125} rx = "5" ry = "5" fill = "blue"/>
-              <text transform = "translate(600, 160)">2020年</text><ellipse cx = {592} cy = {155} rx = "5" ry = "5" fill = "green"/>
-              {" "}
+              <text transform="translate(583, 70)" font-size="2em">
+                {selectedCrime}
+              </text>
+              <text transform="translate(600, 100)">2018年</text>
+              <ellipse cx={592} cy={95} rx="5" ry="5" fill="red" />
+              <text transform="translate(600, 130)">2019年</text>
+              <ellipse cx={592} cy={125} rx="5" ry="5" fill="blue" />
+              <text transform="translate(600, 160)">2020年</text>
+              <ellipse cx={592} cy={155} rx="5" ry="5" fill="green" />{" "}
               {/*軸の描画*/}
               <line
                 x1="0"
@@ -82,13 +100,13 @@ const LineChart = ({ crimeData }) => {
                 let preData;
                 return (
                   <g key={year}>
-                    {crimeData[selectedPrefecture][selectedCrime][
-                      "value"
-                    ][year].map((item, j) => {
+                    {crimeData[selectedPrefecture][selectedCrime]["value"][
+                      year
+                    ].map((item, j) => {
                       preData =
-                        crimeData[selectedPrefecture][selectedCrime][
-                          "value"
-                        ][year][Math.max(0, j - 1)];
+                        crimeData[selectedPrefecture][selectedCrime]["value"][
+                          year
+                        ][Math.max(0, j - 1)];
 
                       //console.log(preData)
                       return (
@@ -96,9 +114,15 @@ const LineChart = ({ crimeData }) => {
                           <g>
                             <line
                               x1={Math.max(0, 40 * (j - 1))}
-                              y1={height - preData / maxLength * (height - 65) - 15}
+                              y1={
+                                height -
+                                (preData / maxLength) * (height - 65) -
+                                15
+                              }
                               x2={40 * j}
-                              y2={height - (item  / maxLength) * (height - 65) - 15}
+                              y2={
+                                height - (item / maxLength) * (height - 65) - 15
+                              }
                               //stroke={"black"}
                               stroke={colors[year]}
                               strokeWidth="2"
@@ -107,7 +131,9 @@ const LineChart = ({ crimeData }) => {
                           <g transform={`translate(${40 * j}, 0)`}>
                             <ellipse
                               cx={0}
-                              cy={height - (item / maxLength) * (height - 65) - 15}
+                              cy={
+                                height - (item / maxLength) * (height - 65) - 15
+                              }
                               rx="5"
                               ry="5"
                               fill={colors[year]}
@@ -148,7 +174,7 @@ const LineChart = ({ crimeData }) => {
                               textAnchor="end"
                               dominantBaseline="central"
                             >
-                              {maxLength / 10 * (j + 1)}
+                              {(maxLength / 10) * (j + 1)}
                             </text>
                           </g>
                           <text
@@ -173,4 +199,10 @@ const LineChart = ({ crimeData }) => {
   );
 };
 
-export default LineChart;
+export function LineChartView() {
+  return (
+    <Responsive
+      render={(width, height) => <LineChart width={width} height={height} />}
+    ></Responsive>
+  );
+}
