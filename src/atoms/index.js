@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const selectedCrimeState = atom({
   key: "selectedCrimeState",
-  default: null,
+  default: "刑法犯総数",
 });
 
 export const selectedPrefectureState = atom({
