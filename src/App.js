@@ -29,8 +29,10 @@ export default function App() {
               typeOfCrime={crimeData === null ? [] : crimeData.typeOfCrime}
             />
           </div>
-          <div className="column box">
-            <ChoroplethMap crimeData={crimeData} />
+          <div className="column">
+            <div className="box">
+              <ChoroplethMap crimeData={crimeData} />
+            </div>
           </div>
         </div>
         <div className="box">
