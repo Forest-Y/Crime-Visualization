@@ -16,7 +16,9 @@ export default function App() {
   const [crimeData, setCrimeData] = useRecoilState(crimeDataState);
   const [selected, setSelected] = useRecoilState(selectedCrimeState);
   const [date, setDate] = useRecoilState(dateState);
-  const setSelectedPrefecture = useSetRecoilState(selectedPrefectureState);
+  const [selectedPrefecture, setSelectedPrefecture] = useRecoilState(
+    selectedPrefectureState
+  );
 
   const crimeDataUrl = `${process.env.PUBLIC_URL}/data/crimeData.json`;
 
@@ -197,12 +199,18 @@ export default function App() {
                       )}
                     </div>
                     <div className="column">
-                      <button
-                        className="button is-info"
-                        onClick={() => setSelectedPrefecture("全国")}
-                      >
-                        全国のデータ
-                      </button>
+                      <div className="control mt-2">
+                        <label className="radio">
+                          <input
+                            type="radio"
+                            name="answer"
+                            value="全国"
+                            checked={selectedPrefecture === "全国"}
+                            onChange={() => setSelectedPrefecture("全国")}
+                          />
+                          全国のデータ
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>

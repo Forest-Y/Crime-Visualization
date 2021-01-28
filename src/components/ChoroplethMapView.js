@@ -141,7 +141,7 @@ function ChoroplethMap({ width, height }) {
                           )
                         )
                   }
-                  data-tip={`増減率${
+                  data-tip={`${feature.properties.nam_ja}の増減率${
                     crimeData[feature.properties.nam_ja][selectedCrime][
                       "value"
                     ][date[0].split("/")[0]][+date[0].split("/")[1] - 1] === 0
@@ -162,6 +162,12 @@ function ChoroplethMap({ width, height }) {
                             ]) *
                             100
                         )
+                  }${
+                    crimeData[feature.properties.nam_ja][selectedCrime][
+                      "value"
+                    ][date[0].split("/")[0]][+date[0].split("/")[1] - 1] === 0
+                      ? ""
+                      : "%"
                   }`}
                   stroke={`${
                     selectedPrefecture === feature.properties.nam_ja
