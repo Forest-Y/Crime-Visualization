@@ -14,3 +14,8 @@ export const crimeDataState = atom({
   key: "crimeDataState",
   default: null,
 });
+
+export const dateState = atom({
+  key: "dateState",
+  default: ["2018/01", "2018/02"],
+});

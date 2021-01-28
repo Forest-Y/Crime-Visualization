@@ -20,7 +20,6 @@ const LineChart = ({ width, height }) => {
     return <p>loading...</p>;
   }
   const berHeight = 10;
-  //console.log(crimeData)
   const keys = [selectedCrime];
   const yLavel = [
     "1",
@@ -50,7 +49,6 @@ const LineChart = ({ width, height }) => {
   const maxLength =
     Math.ceil(max / 10 ** Math.max(1, maxDigit - 1)) *
     10 ** Math.max(1, maxDigit - 1);
-  console.log(maxLength, max);
 
   return (
     <div className="container">
@@ -106,7 +104,6 @@ const LineChart = ({ width, height }) => {
                           year
                         ][Math.max(0, j - 1)];
 
-                      //console.log(preData)
                       return (
                         <g key={j}>
                           <g>

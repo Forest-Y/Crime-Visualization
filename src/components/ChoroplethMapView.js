@@ -4,19 +4,21 @@ import * as topojson from "topojson";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   crimeDataState,
+  dateState,
   selectedCrimeState,
   selectedPrefectureState,
 } from "../atoms";
 import { Responsive } from "./Responsive";
+import ReactTooltip from "react-tooltip";
 
 function ChoroplethMap({ width, height }) {
   const [features, setFeatures] = useState([]);
-  const [scale, setScale] = useState(0);
   const [selectedPrefecture, setSelectedPrefecture] = useRecoilState(
     selectedPrefectureState
   );
   const selectedCrime = useRecoilValue(selectedCrimeState);
   const crimeData = useRecoilValue(crimeDataState);
+  const date = useRecoilValue(dateState);
 
   const mapDataUrl = `${process.env.PUBLIC_URL}/data/japan.json`;
 
@@ -44,14 +46,22 @@ function ChoroplethMap({ width, height }) {
   const color = d3
     .scaleLinear()
     .domain(
-      d3.extent(crimeData.prefectures, (prefecture) =>
-        crimeData[prefecture][selectedCrime]["normalizedValue"]["2018"].reduce(
-          (acc, cur) => acc + cur,
-          0
-        )
+      d3.extent(
+        crimeData.prefectures.map((prefecture) => {
+          const a =
+            crimeData[prefecture][selectedCrime]["value"][
+              date[0].split("/")[0]
+            ][+date[0].split("/")[1] - 1];
+
+          const b =
+            crimeData[prefecture][selectedCrime]["value"][
+              date[1].split("/")[0]
+            ][+date[1].split("/")[1] - 1];
+          return Math.floor(((b - a) / a) * 100);
+        })
       )
     )
-    .range(["#ccc", "#f00"]);
+    .range(["#00f", "#f00"]);
 
   function moveToEndAtIndex(arr, index) {
     return [
@@ -67,7 +77,7 @@ function ChoroplethMap({ width, height }) {
       width={Math.min(width, height)}
       height={Math.min(width, height)}
     >
-      <g transform="scale(0.6)">
+      <g transform={`scale(${0.6})`}>
         <g transform="translate(250,250)">
           {features.map((feature, i) => {
             return (
@@ -83,14 +93,14 @@ function ChoroplethMap({ width, height }) {
                     : ""
                 }`}
               >
-                {feature.properties.nam_ja === "北海道" ? (
+                {feature.properties.nam_ja === "北海道" && (
                   <g transform="translate(400, -150)">
                     <line x1="60" y1="0" x2="300" y2="0" stroke="gray" />
                     <line x1="300" y1="0" x2="650" y2="-300" stroke="gray" />
                   </g>
-                ) : null}
+                )}
 
-                {feature.properties.nam_ja === "沖縄県" ? (
+                {feature.properties.nam_ja === "沖縄県" && (
                   <g transform="translate(-550, 840)">
                     <line x1="0" y1="150" x2="100" y2="-50" stroke="gray" />
                     <line x1="100" y1="-50" x2="450" y2="-50" stroke="gray" />
@@ -98,19 +108,43 @@ function ChoroplethMap({ width, height }) {
                     {/* <line x1="0" y1="150" x2="0" y2="250" stroke="gray" />
                     <line x1="550" y1="150" x2="550" y2="250" stroke="gray" /> */}
                   </g>
-                ) : null}
+                )}
 
                 <path
                   d={path(feature)}
                   fill={color(
-                    crimeData[feature.properties.nam_ja][selectedCrime][
-                      "normalizedValue"
-                    ]["2018"].reduce((acc, cur) => acc + cur, 0)
+                    Math.floor(
+                      ((crimeData[feature.properties.nam_ja][selectedCrime][
+                        "value"
+                      ][date[1].split("/")[0]][+date[1].split("/")[1] - 1] -
+                        crimeData[feature.properties.nam_ja][selectedCrime][
+                          "value"
+                        ][date[0].split("/")[0]][+date[0].split("/")[1] - 1]) /
+                        crimeData[feature.properties.nam_ja][selectedCrime][
+                          "value"
+                        ][date[0].split("/")[0]][+date[0].split("/")[1] - 1]) *
+                        100
+                    )
                   )}
+                  data-tip={`増減率${Math.floor(
+                    ((crimeData[feature.properties.nam_ja][selectedCrime][
+                      "value"
+                    ][date[1].split("/")[0]][+date[1].split("/")[1] - 1] -
+                      crimeData[feature.properties.nam_ja][selectedCrime][
+                        "value"
+                      ][date[0].split("/")[0]][+date[0].split("/")[1] - 1]) /
+                      crimeData[feature.properties.nam_ja][selectedCrime][
+                        "value"
+                      ][date[0].split("/")[0]][+date[0].split("/")[1] - 1]) *
+                      100
+                  )}`}
                   stroke={`${
                     selectedPrefecture === feature.properties.nam_ja
-                      ? "black"
+                      ? "lime"
                       : "white"
+                  }`}
+                  strokeWidth={`${
+                    selectedPrefecture === feature.properties.nam_ja ? "2" : "1"
                   }`}
                   onClick={() => {
                     setSelectedPrefecture(feature.properties.nam_ja);
@@ -136,6 +170,8 @@ export function ChoroplethMapView() {
         />
         // <ChoroplethMap width={500} height={500} />
       )}
-    ></Responsive>
+    >
+      <ReactTooltip delayHide={1000} effect="solid" />
+    </Responsive>
   );
 }
