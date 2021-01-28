@@ -60,7 +60,7 @@ const LineChart = ({ width, height }) => {
         height={height}
       >
         <g transform="scale(0.7)">
-          <g transform="translate(50, -150)">
+          <g transform="translate(60, -150)">
             <g>
               {/*<text transform="translate(0, 180)" font-size="2em">
                 {selectedCrime}
