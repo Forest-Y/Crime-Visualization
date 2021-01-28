@@ -4,13 +4,19 @@ import { Menu } from "./components/Menu";
 import { ChoroplethMapView } from "./components/ChoroplethMapView";
 import { LineChartView } from "./components/LineChartView";
 import { useEffect } from "react";
-import { useRecoilState } from "recoil";
-import { crimeDataState, dateState, selectedCrimeState } from "./atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  crimeDataState,
+  dateState,
+  selectedCrimeState,
+  selectedPrefectureState,
+} from "./atoms";
 
 export default function App() {
   const [crimeData, setCrimeData] = useRecoilState(crimeDataState);
   const [selected, setSelected] = useRecoilState(selectedCrimeState);
   const [date, setDate] = useRecoilState(dateState);
+  const setSelectedPrefecture = useSetRecoilState(selectedPrefectureState);
 
   const crimeDataUrl = `${process.env.PUBLIC_URL}/data/crimeData.json`;
 
@@ -123,9 +129,9 @@ export default function App() {
                     <div className="column">
                       {crimeData !== null && selected !== null && (
                         <div className="field is-horizontal">
-                          <div className="field-label is-normal">
+                          {/* <div className="field-label is-normal">
                             <label className="label">A</label>
-                          </div>
+                          </div> */}
                           <div className="field-body">
                             <div className="field is-narrow">
                               <div className="control">
@@ -158,9 +164,9 @@ export default function App() {
                     <div className="column">
                       {crimeData !== null && selected !== null && (
                         <div className="field is-horizontal">
-                          <div className="field-label is-normal">
+                          {/* <div className="field-label is-normal">
                             <label className="label">B</label>
-                          </div>
+                          </div> */}
                           <div className="field-body">
                             <div className="field is-narrow">
                               <div className="control">
@@ -189,6 +195,14 @@ export default function App() {
                           </div>
                         </div>
                       )}
+                    </div>
+                    <div className="column">
+                      <button
+                        className="button is-info"
+                        onClick={() => setSelectedPrefecture("全国")}
+                      >
+                        全国のデータ
+                      </button>
                     </div>
                   </div>
                 </div>

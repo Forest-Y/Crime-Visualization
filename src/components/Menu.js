@@ -10,8 +10,25 @@ export function Menu() {
   }
   return (
     <div className="menu">
-      <div className="select">
+      {/* <div className="select">
         <select onChange={(e) => setSelected(e.target.value)}>
+          {crimeData.typeOfCrime.map((crimeName) => (
+            <option
+              key={crimeName}
+              value={crimeName}
+              selected={crimeName === selected}
+            >
+              {crimeName}
+            </option>
+          ))}
+        </select>
+      </div> */}
+      <div className="select is-multiple">
+        <select
+          multiple
+          size={crimeData.typeOfCrime.length}
+          onChange={(e) => setSelected(e.target.value)}
+        >
           {crimeData.typeOfCrime.map((crimeName) => (
             <option
               key={crimeName}
