@@ -36,7 +36,7 @@ export default function App() {
           </div>
         </div>
         <div className="box">
-          <LineChart />
+          <LineChart crimeData = {crimeData}/>
         </div>
       </div>
     </section>

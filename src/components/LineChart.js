@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { selectedCrimeState, selectedPrefectureState }from "../atoms"
 import ReactTooltip from "react-tooltip";
+import { useRecoilValue } from "recoil";
 
-const LineChartSetUp = () => {
-    const [crimeData, setCrimeData] = useState(null)
-    useEffect(() => {
-        (async () => {
-            const res = await fetch(`${process.env.PUBLIC_URL}/data/crimeData.json`)
-            const data = await res.json()
-            setCrimeData(data)
-        })()
-    }, [])
-    if (crimeData == null) {
-        return <p>loading</p>;
-    }
-    return <LineChart crimeData={crimeData} />;
-}
 const LineChart = ({ crimeData }) => {
-    const key1 = "全国"
-    //const key2 = "刑法犯総数"
-    //console.log(crimeData)
+    console.log(crimeData)
+    const selectedCrime = useRecoilValue(selectedCrimeState)
+    const selectedPrefecture = useRecoilValue(selectedPrefectureState)
+    console.log(selectedCrime, selectedPrefecture)
+    if(crimeData === null || selectedCrime === null || selectedPrefecture === null){
+        return <p>loading...</p>
+    }
     const berHeight = 10;
     const width = 1600
     const height = 565
@@ -44,6 +36,7 @@ const LineChart = ({ crimeData }) => {
         "強盗":"teal",
         "強制わいせつ":"black"
     }
+
     return (
         <div>
             <ReactTooltip delayHide={1000} effect='solid' />
@@ -79,11 +72,11 @@ const LineChart = ({ crimeData }) => {
                                                 let preData
                                                 return (
                                                     <g key={year}>
-                                                        {crimeData[key1][crime]["normalizedValue"][year].map((item, k) => {
+                                                        {crimeData[selectedPrefecture][selectedCrime]["normalizedValue"][year].map((item, k) => {
                                                             if (year !== "2018" && k === 0) {
-                                                                preData = crimeData[key1][crime]["normalizedValue"][String(parseFloat(year) - 1)][11]
+                                                                preData = crimeData[selectedPrefecture][selectedCrime]["normalizedValue"][String(parseFloat(year) - 1)][11]
                                                             } else {
-                                                                preData = crimeData[key1][crime]["normalizedValue"][year][Math.max(0, k - 1)]
+                                                                preData = crimeData[selectedPrefecture][selectedCrime]["normalizedValue"][year][Math.max(0, k - 1)]
                                                             }
                                                             //console.log(item)
                                                             return (
@@ -109,7 +102,7 @@ const LineChart = ({ crimeData }) => {
                                                                             rx="5"
                                                                             ry="5"
                                                                             fill={colors[crime]}
-                                                                            data-tip={"正規化前の認知件数：" + crimeData[key1][crime]["value"][year][Math.max(0, k - 1)]}></ellipse>
+                                                                            data-tip={"罪名：" + crime + "\n正規化前の認知件数：" + crimeData[selectedPrefecture][selectedCrime]["value"][year][Math.max(0, k - 1)]}></ellipse>
 
 
                                                                         <text
@@ -169,4 +162,4 @@ const LineChart = ({ crimeData }) => {
     )
 }
 
-export default LineChartSetUp
+export default LineChart
