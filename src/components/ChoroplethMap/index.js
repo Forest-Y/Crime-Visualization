@@ -39,11 +39,9 @@ export default function ChoroplethMap({ crimeData }) {
   function PrefectureWrap({ children, feature }) {
     return (
       <g
-        transform={`${
-          feature.properties.nam_ja === "北海道" ? "translate(-600, 300)" : ""
-        }${
-          feature.properties.nam_ja === "沖縄県" ? "translate(900, -400)" : ""
-        }`}
+        transform={`${feature.properties.nam_ja === "北海道" ? "translate(-600, 300)" : ""
+          }${feature.properties.nam_ja === "沖縄県" ? "translate(900, -400)" : ""
+          }`}
       >
         {children}
       </g>
@@ -69,16 +67,15 @@ export default function ChoroplethMap({ crimeData }) {
       <svg width={width} height={height}>
         <g transform="translate(200,300)">
           {features.map((feature, i) => {
-            return (
+              return (
               <PrefectureWrap feature={feature}>
                 <path
                   d={path(feature)}
                   fill={color(feature.properties.value)}
-                  stroke={`${
-                    selectedPrefecture === feature.properties.nam_ja
-                      ? "black"
-                      : "white"
-                  }`}
+                  stroke={`${selectedPrefecture === feature.properties.nam_ja
+                    ? "black"
+                    : "white"
+                    }`}
                   onClick={() => {
                     setSelectedPrefecture(feature.properties.nam_ja);
                     setFeatures((prev) => moveToEndAtIndex(prev, i));
