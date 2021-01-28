@@ -7,7 +7,7 @@ export const selectedCrimeState = atom({
 
 export const selectedPrefectureState = atom({
   key: "selectedPrefectureState",
-  default: null,
+  default: "全国",
 });
 
 export const crimeDataState = atom({
