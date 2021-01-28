@@ -74,7 +74,7 @@ const LineChart = ({ width, height }) => {
               {/*軸の描画*/}
               <line
                 x1="0"
-                y1="200"
+                y1="100"
                 x2="0"
                 y2={height - 14}
                 stroke="#888"
