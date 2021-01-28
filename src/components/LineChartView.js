@@ -1,13 +1,17 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import { useRecoilValue } from "recoil";
-import { selectedCrimeState, selectedPrefectureState } from "../atoms";
+import {
+  crimeDataState,
+  selectedCrimeState,
+  selectedPrefectureState,
+} from "../atoms";
+import { Responsive } from "./Responsive";
 
-const LineChart = ({ crimeData }) => {
-  //console.log(crimeData);
+const LineChart = ({ width, height }) => {
+  const crimeData = useRecoilValue(crimeDataState);
   const selectedCrime = useRecoilValue(selectedCrimeState);
   const selectedPrefecture = useRecoilValue(selectedPrefectureState);
-  //console.log(selectedCrime, selectedPrefecture);
   if (
     crimeData === null ||
     selectedCrime === null ||
@@ -16,8 +20,6 @@ const LineChart = ({ crimeData }) => {
     return <p>loading...</p>;
   }
   const berHeight = 10;
-  const width = 700;
-  const height = 565;
   //console.log(crimeData)
   const keys = [selectedCrime];
   const yLavel = [
@@ -52,12 +54,16 @@ const LineChart = ({ crimeData }) => {
 
   return (
     <div className="container">
-      <ReactTooltip delayHide={0} effect="solid" />
-      <svg viewBox={`0 0 ${width} ${height}`}>
+      <ReactTooltip delayHide={1000} effect="solid" />
+      <svg
+        // viewBox={`0 0 ${width} ${height}`}
+        width={width}
+        height={height}
+      >
         <g transform="scale(0.7)">
-          <g transform="translate(50, 30)">
+          <g transform="translate(50, 0)">
             <g>
-              <text transform="translate(0, 0)" font-size="2em">
+              <text transform="translate(0, 60)" font-size="2em">
                 {selectedCrime}
               </text>
               <text transform="translate(600, 100)">2018年</text>
@@ -69,7 +75,7 @@ const LineChart = ({ crimeData }) => {
               {/*軸の描画*/}
               <line
                 x1="0"
-                y1="40"
+                y1="100"
                 x2="0"
                 y2={height - 14}
                 stroke="#888"
@@ -108,12 +114,11 @@ const LineChart = ({ crimeData }) => {
                               x1={Math.max(0, 40 * (j - 1))}
                               y1={
                                 height -
-                                (preData / maxLength) * (height - 65) -
-                                15
+                                (preData / maxLength) * 500 - 15
                               }
                               x2={40 * j}
                               y2={
-                                height - (item / maxLength) * (height - 65) - 15
+                                height - (item / maxLength) * 500 - 15 
                               }
                               //stroke={"black"}
                               stroke={colors[year]}
@@ -124,7 +129,7 @@ const LineChart = ({ crimeData }) => {
                             <ellipse
                               cx={0}
                               cy={
-                                height - (item / maxLength) * (height - 65) - 15
+                                height - 15 - (item / maxLength) * 500
                               }
                               rx="5"
                               ry="5"
@@ -148,28 +153,28 @@ const LineChart = ({ crimeData }) => {
                             </text>
                           </g>
                           {j <= 9 && (
-                            <g
-                              key={5000 * i}
-                              transform={`translate(0, ${
-                                -50 * (i * 12 + j + 1)
-                              })`}
+                          <g
+                            key={5000 * i}
+                            transform={`translate(0, ${
+                              -50 * (i * 12 + j + 1)
+                            })`}
+                          >
+                            <line
+                              x1="0"
+                              y1={height - 15}
+                              x2={width - 200}
+                              y2={height - 15}
+                              stroke="#888"
+                            />
+                            <text
+                              x="-5"
+                              y={height - 15}
+                              textAnchor="end"
+                              dominantBaseline="central"
                             >
-                              <line
-                                x1="0"
-                                y1={height - 15}
-                                x2={width - 200}
-                                y2={height - 15}
-                                stroke="#888"
-                              />
-                              <text
-                                x="-5"
-                                y={height - 15}
-                                textAnchor="end"
-                                dominantBaseline="central"
-                              >
-                                {(maxLength / 10) * (j + 1)}
-                              </text>
-                            </g>
+                              {(maxLength / 10) * (j + 1)}
+                            </text>
+                          </g>
                           )}
                           <text
                             x="-5"
@@ -193,4 +198,10 @@ const LineChart = ({ crimeData }) => {
   );
 };
 
-export default LineChart;
+export function LineChartView() {
+  return (
+    <Responsive
+      render={(width, height) => <LineChart width={width} height={height} />}
+    ></Responsive>
+  );
+}
