@@ -53,7 +53,7 @@ const LineChart = ({ width, height }) => {
   return (
     <div className="container">
       <ReactTooltip delayHide={1000} effect="solid" />
-      <h1>{selectedPrefecture + " " + selectedCrime}</h1>
+      <h1 className="title">{selectedPrefecture + "の" + selectedCrime}</h1>
       <svg
         // viewBox={`0 0 ${width} ${height}`}
         width={width}
@@ -153,7 +153,7 @@ const LineChart = ({ width, height }) => {
                               <line
                                 x1="0"
                                 y1={height - 15}
-                                x2={width }
+                                x2={width}
                                 y2={height - 15}
                                 stroke="#888"
                               />

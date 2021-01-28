@@ -83,6 +83,28 @@ export default function App() {
             <h1>Visualization of Japan Crimes</h1>
           </a>
         </div>
+        <div className="navbar-menu">
+          <div className="navbar-start">
+            <a
+              className="navbar-item"
+              href="."
+              onClick={(event) => {
+                event.preventDefault();
+                alert(
+                  `このアプリは日本の犯罪の認知件数についての可視化を行っています。
+
+犯罪の種類を選択した後、マップ上部から期間を選択すると
+
+(右の月の認知件数 - 左の月の認知件数) / 右の月の認知件数 * 100
+
+された増減率がマップに反映されます。`
+                );
+              }}
+            >
+              About
+            </a>
+          </div>
+        </div>
       </nav>
       <main className="main has-background-info-light">
         <div className="main-contents">
