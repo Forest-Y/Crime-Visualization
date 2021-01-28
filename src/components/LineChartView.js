@@ -53,27 +53,28 @@ const LineChart = ({ width, height }) => {
   return (
     <div className="container">
       <ReactTooltip delayHide={1000} effect="solid" />
+      <h1>{selectedPrefecture + " " + selectedCrime}</h1>
       <svg
         // viewBox={`0 0 ${width} ${height}`}
         width={width}
         height={height}
       >
         <g transform="scale(0.7)">
-          <g transform="translate(50, 0)">
+          <g transform="translate(60, -150)">
             <g>
-              <text transform="translate(0, 60)" font-size="2em">
+              {/*<text transform="translate(0, 180)" font-size="2em">
                 {selectedCrime}
-              </text>
-              <text transform="translate(600, 100)">2018年</text>
-              <ellipse cx={592} cy={95} rx="5" ry="5" fill="red" />
-              <text transform="translate(600, 130)">2019年</text>
-              <ellipse cx={592} cy={125} rx="5" ry="5" fill="blue" />
-              <text transform="translate(600, 160)">2020年</text>
-              <ellipse cx={592} cy={155} rx="5" ry="5" fill="green" />{" "}
+              </text>*/}
+              <text transform="translate(600, 300)">2018年</text>
+              <ellipse cx={592} cy={295} rx="5" ry="5" fill="red" />
+              <text transform="translate(600, 330)">2019年</text>
+              <ellipse cx={592} cy={325} rx="5" ry="5" fill="blue" />
+              <text transform="translate(600, 360)">2020年</text>
+              <ellipse cx={592} cy={355} rx="5" ry="5" fill="green" />{" "}
               {/*軸の描画*/}
               <line
                 x1="0"
-                y1="100"
+                y1="200"
                 x2="0"
                 y2={height - 14}
                 stroke="#888"
@@ -84,7 +85,7 @@ const LineChart = ({ width, height }) => {
               <line
                 x1="0"
                 y1={height - 15}
-                x2={width - 200}
+                x2={width}
                 y2={height - 15}
                 stroke="#888"
                 strokeWidth="2"
@@ -142,7 +143,7 @@ const LineChart = ({ width, height }) => {
                               {yLavel[j] + "月"}
                             </text>
                           </g>
-                          {j <= 9 && (
+                          {j <= 9 && i === 0 && (
                             <g
                               key={5000 * i}
                               transform={`translate(0, ${
@@ -152,7 +153,7 @@ const LineChart = ({ width, height }) => {
                               <line
                                 x1="0"
                                 y1={height - 15}
-                                x2={width - 200}
+                                x2={width }
                                 y2={height - 15}
                                 stroke="#888"
                               />
