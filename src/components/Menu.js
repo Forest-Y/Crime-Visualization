@@ -47,8 +47,9 @@ export function Menu() {
             <input
               type="radio"
               value={crimeName}
-              selected={crimeName === selected}
+              checked={crimeName === selected}
               name="crimeType"
+              onChange={(e) => setSelected(e.target.value)}
             />
             {crimeName}
           </label>

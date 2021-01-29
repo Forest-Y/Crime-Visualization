@@ -58,7 +58,7 @@ function ChoroplethMap({ width, height }) {
               date[1].split("/")[0]
             ][+date[1].split("/")[1] - 1];
           if (a === 0) {
-            return null;
+            return -100;
           }
           return Math.floor(((b - a) / a) * 100);
         })
@@ -115,39 +115,13 @@ function ChoroplethMap({ width, height }) {
 
                 <path
                   d={path(feature)}
-                  fill={
-                    crimeData[feature.properties.nam_ja][selectedCrime][
-                      "value"
-                    ][date[0].split("/")[0]][+date[0].split("/")[1] - 1] === 0
-                      ? "#ccc"
-                      : color(
-                          Math.floor(
-                            ((crimeData[feature.properties.nam_ja][
-                              selectedCrime
-                            ]["value"][date[1].split("/")[0]][
-                              +date[1].split("/")[1] - 1
-                            ] -
-                              crimeData[feature.properties.nam_ja][
-                                selectedCrime
-                              ]["value"][date[0].split("/")[0]][
-                                +date[0].split("/")[1] - 1
-                              ]) /
-                              crimeData[feature.properties.nam_ja][
-                                selectedCrime
-                              ]["value"][date[0].split("/")[0]][
-                                +date[0].split("/")[1] - 1
-                              ]) *
-                              100
-                          )
-                        )
-                  }
-                  data-tip={`${feature.properties.nam_ja}の増減率${
-                    crimeData[feature.properties.nam_ja][selectedCrime][
-                      "value"
-                    ][date[0].split("/")[0]][+date[0].split("/")[1] - 1] === 0
-                      ? "計算不可"
-                      : Math.floor(
-                          ((crimeData[feature.properties.nam_ja][selectedCrime][
+                  fill={color(
+                    Math.floor(
+                      crimeData[feature.properties.nam_ja][selectedCrime][
+                        "value"
+                      ][date[0].split("/")[0]][+date[0].split("/")[1] - 1] === 0
+                        ? -100
+                        : ((crimeData[feature.properties.nam_ja][selectedCrime][
                             "value"
                           ][date[1].split("/")[0]][+date[1].split("/")[1] - 1] -
                             crimeData[feature.properties.nam_ja][selectedCrime][
@@ -161,14 +135,28 @@ function ChoroplethMap({ width, height }) {
                               +date[0].split("/")[1] - 1
                             ]) *
                             100
-                        )
-                  }${
+                    )
+                  )}
+                  data-tip={`${feature.properties.nam_ja}の増減率${Math.floor(
                     crimeData[feature.properties.nam_ja][selectedCrime][
                       "value"
                     ][date[0].split("/")[0]][+date[0].split("/")[1] - 1] === 0
-                      ? ""
-                      : "%"
-                  }`}
+                      ? -100
+                      : ((crimeData[feature.properties.nam_ja][selectedCrime][
+                          "value"
+                        ][date[1].split("/")[0]][+date[1].split("/")[1] - 1] -
+                          crimeData[feature.properties.nam_ja][selectedCrime][
+                            "value"
+                          ][date[0].split("/")[0]][
+                            +date[0].split("/")[1] - 1
+                          ]) /
+                          crimeData[feature.properties.nam_ja][selectedCrime][
+                            "value"
+                          ][date[0].split("/")[0]][
+                            +date[0].split("/")[1] - 1
+                          ]) *
+                          100
+                  )}%`}
                   stroke={`${
                     selectedPrefecture === feature.properties.nam_ja
                       ? "lime"
