@@ -104,6 +104,15 @@ export default function App() {
               About
             </a>
           </div>
+          <div className="navbar-end">
+            <a
+              className="navbar-item"
+              href="https://www.e-stat.go.jp/stat-search/files?page=1&toukei=00130001"
+              target="_blank"
+            >
+              data from e-Stat 犯罪統計
+            </a>
+          </div>
         </div>
       </nav>
       <main className="main has-background-info-light">

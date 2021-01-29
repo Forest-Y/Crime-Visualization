@@ -23,7 +23,7 @@ export function Menu() {
           ))}
         </select>
       </div> */}
-      <div className="select is-multiple">
+      {/* <div className="select is-multiple">
         <select
           multiple
           size={crimeData.typeOfCrime.length}
@@ -39,7 +39,21 @@ export function Menu() {
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
+      <h2 className="title">罪の選択</h2>
+      {crimeData.typeOfCrime.map((crimeName) => (
+        <div className="control" key={crimeName}>
+          <label>
+            <input
+              type="radio"
+              value={crimeName}
+              selected={crimeName === selected}
+              name="crimeType"
+            />
+            {crimeName}
+          </label>
+        </div>
+      ))}
     </div>
   );
 }
